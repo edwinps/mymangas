@@ -1,2 +1,2 @@
-# mymangas
+# myMangas
 manga collection
