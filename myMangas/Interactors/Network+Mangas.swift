@@ -6,14 +6,6 @@
 //
 
 import Foundation
-
-protocol DataInteractor {
-    func getMangas() async throws -> [Manga]
-    func getManga(id: Int) async throws -> Manga
-    func getBestMangas() async throws -> [Manga]
-}
-
-
 extension Network: DataInteractor {
     func getMangas() async throws -> [Manga] {
         try await getJSON(request: .get(url: .getMangas), type: MangasDTO.self).items.map(\.toPresentation)

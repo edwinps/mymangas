@@ -12,7 +12,7 @@ struct MangasDTO: Codable {
     let items: [MangaDTO]
 }
 
-struct Author: Codable {
+struct AuthorDTO: Codable {
     let id: String
     let role: String
     let firstName: String
@@ -26,7 +26,7 @@ struct Demographic: Codable {
 
 struct Genre: Codable {
     let id: String
-    let genre: GenreType
+    let genre: String
 }
 
 struct Theme: Codable {
@@ -36,4 +36,10 @@ struct Theme: Codable {
 
 struct Metadata: Codable {
     let total, page, per: Int
+}
+
+extension AuthorDTO {
+    var toPresentation: Author {
+        Author(id: id, Name: firstName + " " + lastName)
+    }
 }

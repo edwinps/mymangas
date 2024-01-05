@@ -7,6 +7,18 @@
 
 import Foundation
 
+protocol DataInteractor {
+    func getMangas() async throws -> [Manga]
+    func getBestMangas() async throws -> [Manga]
+    
+    // Categories
+    func getGenres() async throws -> [String]
+    func getThemes() async throws -> [String]
+    
+    // Search
+    func getManga(id: Int) async throws -> Manga
+}
+
 struct Network {
     func getJSON<JSON>(request: URLRequest, type: JSON.Type) async throws -> JSON where JSON: Codable {
         let (data, response) = try await URLSession.shared.getData(for: request)

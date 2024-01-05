@@ -10,14 +10,15 @@ import Foundation
 extension Manga {
     static let testMonter = Manga(id: 1,
                             titleJapanese: "MONSTER",
-                            authors: ["Urasawa Naoki"],
-                            themes: ["Psychological", "Adult Cast"],
+                            authors: [Author(id: "54BE174C-2FE9-42C8-A842-85D291A6AEDD", Name: "Urasawa Naoki")],
+                            themes: ["Psychological",
+                                     "Adult Cast"],
                             title: "Monster",
                             endDate: "1994-04-25T00:00:00Z",
                             score: 9.15,
                             status: "finished",
-                            demographics: [.seinen],
-                            genres: [.awardWinning, .drama, .mystery],
+                                  demographics: [.seinen],
+                                  genres: ["awardWinning", "drama", "mystery"],
                             startDate: "1994-04-25T00:00:00Z",
                             titleEnglish: "Monster",
                             chapters: 162,
@@ -29,14 +30,17 @@ extension Manga {
     
     static let testBerserk = Manga(id: 2,
                             titleJapanese: "ベルセルク",
-                            authors: ["Kentarou Miura", "Studio Gaga"],
+                            authors: [Author(id: "4394C98F-615B-494A-929E-123A342A95B8", Name: "Kentarou Miura"),
+                                      Author(id: "4394C89F-615B-494A-929E-321A342A95B8", Name: "Studio Gaga")],
                             themes: ["Gore", "Military"],
                             title: "Berserk",
                             endDate: nil,
                             score: 9.15,
                             status: "currently_publishing",
                             demographics: [.seinen],
-                            genres: [.action, .adventure, .awardWinning],
+                            genres: ["action",
+                                     "adventure",
+                                     "awardWinning"],
                             startDate: "1994-04-25T00:00:00Z",
                             titleEnglish: "Monster",
                             chapters: nil,
@@ -68,5 +72,13 @@ struct DataTest: DataInteractor {
     func getBestMangas() async throws -> [Manga] {
         let data = try Data(contentsOf: urlBest)
         return try JSONDecoder().decode(MangasDTO.self, from: data).items.map(\.toPresentation)
+    }
+    
+    func getGenres() async throws -> [String] {
+        return ["Action", "Adventure"]
+    }
+    
+    func getThemes() async throws -> [String] {
+        return ["Gore", "Military"]
     }
 }

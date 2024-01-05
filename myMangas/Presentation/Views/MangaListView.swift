@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MangaListView: View {
     @EnvironmentObject var viewModel: MangaListViewModel
+    @State private var showFilterSheet = false
     
     var body: some View {
         if viewModel.loading {
@@ -28,12 +29,8 @@ struct MangaListView: View {
                         .padding()
                 }
                 .navigationBarItems(leading: HStack {
-                    Menu("Filter") {
-                        ForEach(GenreType.allCases, id: \.self) { genre in
-                            Button(genre.rawValue) {
-                                viewModel.filteredMangas(for: genre)
-                            }
-                        }
+                    Button("Filters") {
+                        showFilterSheet.toggle()
                     }
                 })
                 .navigationBarItems(
@@ -43,6 +40,8 @@ struct MangaListView: View {
                         Image(systemName: "magnifyingglass")
                     }
                 )
+            }.sheet(isPresented: $showFilterSheet) {
+                FilterView(isPresented: $showFilterSheet)
             }
         }
     }

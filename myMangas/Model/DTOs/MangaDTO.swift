@@ -14,7 +14,7 @@ struct MangaDTO: Codable {
     let titleEnglish: String?
     let chapters: Int?
     let themes: [Theme]
-    let authors: [Author]
+    let authors: [AuthorDTO]
     let title, status: String
     let startDate: String?
     let url: String
@@ -31,7 +31,7 @@ extension MangaDTO {
     var toPresentation: Manga {
         Manga(id: id,
               titleJapanese: titleJapanese,
-              authors: authors.map { $0.firstName + " " + $0.lastName },
+              authors: authors.map(\.toPresentation),
               themes: themes.map(\.theme),
               title: title,
               endDate: endDate,
