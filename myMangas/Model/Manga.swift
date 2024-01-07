@@ -24,21 +24,21 @@ struct Author: Identifiable, Hashable {
 
 struct Manga: Identifiable, Hashable {
     let id: Int
-    let titleJapanese: String
+    let titleJapanese: String?
     let authors: [Author]
     let themes: [String]
     let title: String
     let endDate: String?
-    let score: Double
-    let status: String
+    let score: Double?
+    let status: String?
     let demographics: [DemographicType]
     let genres: [String]
     let startDate: String?
     let titleEnglish: String?
     let chapters: Int?
-    let sypnosis: String
-    let background: String
-    let url: String
+    let sypnosis: String?
+    let background: String?
+    let url: String?
     let mainPicture: URL?
     let volumes: Int?
 }

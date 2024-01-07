@@ -19,4 +19,5 @@ extension URL {
     
     //Search
     static let getManga = api.appending(path: "search/manga")
+    static let postSearchMangas = api.appending(path: "search/manga")
 }

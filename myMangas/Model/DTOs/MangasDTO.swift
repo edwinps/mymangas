@@ -9,7 +9,7 @@ import Foundation
 
 struct MangasDTO: Codable {
     let metadata: Metadata
-    let items: [MangaDTO]
+    let items: [MangaDTO]?
 }
 
 struct AuthorDTO: Codable {

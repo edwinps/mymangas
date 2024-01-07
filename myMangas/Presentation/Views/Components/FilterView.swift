@@ -13,21 +13,30 @@ struct FilterView: View {
     
     var body: some View {
         ScrollView {
-            FilterDropDown(title: "Demographics",
-                           options: viewModel.demographics,
-                           selectedOption: $viewModel.selectedDemographic)
-            FilterDropDown(title: "Genres",
-                           options: viewModel.genres,
-                           selectedOption: $viewModel.selectedGenre)
-            FilterDropDown(title: "Themes",
-                           options: viewModel.themes,
-                           selectedOption: $viewModel.selectedTheme)
+            if !viewModel.demographics.isEmpty {
+                FilterDropDown(title: "Demographics",
+                               options: viewModel.demographics,
+                               selectedOption: $viewModel.selectedDemographic)
+            }
+            if !viewModel.genres.isEmpty {
+                FilterDropDown(title: "Genres",
+                               options: viewModel.genres,
+                               selectedOption: $viewModel.selectedGenre)
+            }
+            if !viewModel.themes.isEmpty {
+                FilterDropDown(title: "Themes",
+                               options: viewModel.themes,
+                               selectedOption: $viewModel.selectedTheme)
+            }
             HStack {
                 Spacer()
                 Button("Clean filters") {
                     viewModel.clearFilters()
                 }
                 Button("Apply") {
+                    Task {
+                        await viewModel.applyFilters()
+                    }
                     isPresented.toggle()
                 }
                 .padding()

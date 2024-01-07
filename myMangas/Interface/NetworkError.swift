@@ -18,17 +18,17 @@ enum NetworkError: Error, CustomStringConvertible {
     public var description: String {
         switch self {
         case .general(let error):
-            "General Error: \(error.localizedDescription)"
+            return "General Error: \(error.localizedDescription)"
         case .status(let int):
-            "Status Error: \(int)"
+            return "Status Error: \(int)"
         case .noContent:
-            " El contenido no se corresponde con lo esperado"
+            return "Content does not match the expected format"
         case .unknown:
-            "Error desconocido"
+            return "Unknown Error"
         case .noHTTP:
-            "No es una llamada HTTP"
+            return "Not an HTTP call"
         case .json(let error):
-            "JSON error: \(error)"
+            return "JSON error: \(error)"
         }
     }
 }

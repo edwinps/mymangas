@@ -59,19 +59,19 @@ struct DataTest: DataInteractor {
     let url = Bundle.main.url(forResource: "testMangas", withExtension: "json")!
     let urlBest = Bundle.main.url(forResource: "testBestMangas", withExtension: "json")!
     
-    func getMangas() async throws -> [Manga] {
+    func getMangas(page: Int) async throws -> [Manga] {
         let data = try Data(contentsOf: url)
-        return try JSONDecoder().decode(MangasDTO.self, from: data).items.map(\.toPresentation)
+        return try JSONDecoder().decode(MangasDTO.self, from: data).items?.map(\.toPresentation) ?? []
     }
     
     func getManga(id: Int) async throws -> Manga {
         let data = try Data(contentsOf: url)
-        return try JSONDecoder().decode(MangasDTO.self, from: data).items.map(\.toPresentation).first!
+        return try JSONDecoder().decode(MangasDTO.self, from: data).items!.map(\.toPresentation).first!
     }
     
     func getBestMangas() async throws -> [Manga] {
         let data = try Data(contentsOf: urlBest)
-        return try JSONDecoder().decode(MangasDTO.self, from: data).items.map(\.toPresentation)
+        return try JSONDecoder().decode(MangasDTO.self, from: data).items?.map(\.toPresentation) ?? []
     }
     
     func getGenres() async throws -> [String] {
@@ -80,5 +80,10 @@ struct DataTest: DataInteractor {
     
     func getThemes() async throws -> [String] {
         return ["Gore", "Military"]
+    }
+    
+    func searchMangas(page: Int, bodyItems: CustomSearch) async throws -> [Manga] {
+        let data = try Data(contentsOf: urlBest)
+        return try JSONDecoder().decode(MangasDTO.self, from: data).items?.map(\.toPresentation) ?? []
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct MangaListView: View {
     @EnvironmentObject var viewModel: MangaListViewModel
     @State private var showFilterSheet = false
+    @State private var searchText: String = ""
     
     var body: some View {
         if viewModel.loading {
@@ -22,35 +23,39 @@ struct MangaListView: View {
         } else {
             NavigationStack {
                 ScrollView {
-                    BestMangaListView(bestMangas: viewModel.filteredBestMangas)
-                        .frame(height: UIScreen.main.bounds.height / 3)
+                    if !viewModel.filteredBestMangas.isEmpty {
+                        BestMangaListView(bestMangas: viewModel.filteredBestMangas)
+                            .frame(height: UIScreen.main.bounds.height / 3)
+                    }
                     
-                    MangaListViewGrid(mangas: viewModel.filteredMangas)
+                    MangaListViewGrid()
                         .padding()
                 }
-                .navigationBarItems(leading: HStack {
-                    Button("Filters") {
-                        showFilterSheet.toggle()
-                    }
+                .navigationBarItems(leading: Button("Filters") {
+                    showFilterSheet.toggle()
                 })
-                .navigationBarItems(
-                    trailing: Button(action: {
-                        
-                    }) {
-                        Image(systemName: "magnifyingglass")
-                    }
-                )
-            }.sheet(isPresented: $showFilterSheet) {
+            }
+            .searchable(text: $searchText)
+            .onChange(of: searchText) { _, newSearchText in
+                if !newSearchText.isEmpty {
+                    viewModel.performSearch(query: newSearchText)
+                }
+            }
+            .sheet(isPresented: $showFilterSheet) {
                 FilterView(isPresented: $showFilterSheet)
+            }
+            .alert("Error",
+                   isPresented: $viewModel.showAlert) { } message: {
+                Text(viewModel.msg)
             }
         }
     }
 }
 
-private extension MangaListView{
+private extension MangaListView {
     struct MangaListViewGrid: View {
-        var mangas: [Manga]
-        
+        @EnvironmentObject var viewModel: MangaListViewModel
+        @State private var isLoadingNextPage = false
         var body: some View {
             
             VStack(alignment: .leading) {
@@ -59,10 +64,37 @@ private extension MangaListView{
                     .foregroundColor(.primary)
                     .bold()
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 16) {
-                    ForEach(mangas) { manga in
+                    ForEach(viewModel.mangas) { manga in
                         MangaItemView(manga: manga)
+                            .onAppear {
+                                if manga == viewModel.mangas.last, !isLoadingNextPage {
+                                    isLoadingNextPage = true
+                                    Task {
+                                        await viewModel.loadMoreMangas()
+                                    }
+                                    isLoadingNextPage = false
+                                }
+                            }
                     }
                 }
+                .overlay(
+                    LoadingIndicator(isLoading: viewModel.loadingIndicator),
+                    alignment: .bottom
+                )
+            }
+        }
+    }
+    
+    struct LoadingIndicator: View {
+        var isLoading: Bool
+
+        var body: some View {
+            if isLoading {
+                ProgressView()
+                    .controlSize(.large)
+                    .padding(.vertical)
+            } else {
+                Color.clear
             }
         }
     }

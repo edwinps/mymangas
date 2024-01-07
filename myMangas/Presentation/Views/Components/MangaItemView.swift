@@ -29,14 +29,15 @@ struct MangaItemView: View {
                             Spacer()
                             Text(manga.title)
                                 .foregroundColor(.white)
-                                .font(.caption)
+                                .font(.title)
+                                .bold()
                                 .padding(4)
                         }
                     )
             }
             Text(manga.title)
                 .padding(.leading, 5)
-                .font(.body)
+                .font(.footnote)
                 .foregroundColor(.primary)
                 .bold()
                 .lineLimit(2)
