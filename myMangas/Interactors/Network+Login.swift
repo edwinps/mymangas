@@ -39,6 +39,7 @@ extension Network {
         let authorization = "Bearer \(token)"
         let newToken = try await postToken(request: .post(url: .renew,
                                                           authorization: authorization))
+        logout()
         saveAuthToken(newToken)
     }
     

@@ -13,24 +13,6 @@ struct AccountView: View {
     @State var password = ""
     @State var isRegistering: Bool = false
     
-    //    var body: some View {
-    //        VStack {
-    //            if viewModel.loginSuccess {
-    //                Text("Welcome")
-    //                    .font(.title)
-    //                    .foregroundColor(.primary)
-    //                    .bold()
-    //                    .padding()
-    //            }
-    //            formFields
-    //            Button("Log out") {
-    //                Task {
-    //                    await viewModel.loginSuccess ? viewModel.logout() : viewModel.login()
-    //                }
-    //            }
-    //        }
-    //    }
-    
     var body: some View {
         VStack {
             if viewModel.loginSuccess {
@@ -57,7 +39,7 @@ struct AccountView: View {
                                 }
                             }
                         }
-                      //  .loading(loading: viewModel.loading)
+                        .loading(loading: viewModel.loading)
                     } else {
                         VStack {
                             formFields
@@ -67,7 +49,7 @@ struct AccountView: View {
                                 }
                             }
                         }
-                       // .loading(loading: viewModel.loading)
+                        .loading(loading: viewModel.loading)
                     }
                 }.padding([.leading,.trailing])
                 
@@ -76,7 +58,7 @@ struct AccountView: View {
                         .foregroundColor(.red)
                         .padding()
                 }
-                //if !viewModel.loading {
+                if !viewModel.loading {
                     HStack {
                         Button(action: {
                             isRegistering.toggle()
@@ -88,7 +70,7 @@ struct AccountView: View {
                             .padding()
                         }
                     }
-                //}
+                }
             }
         }
     }
