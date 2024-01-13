@@ -20,4 +20,9 @@ extension URL {
     //Search
     static let getManga = api.appending(path: "search/manga")
     static let postSearchMangas = api.appending(path: "search/manga")
+    
+    //Login
+    static let register = api.appending(path: "users")
+    static let login = api.appending(path: "users/login")
+    static let renew = api.appending(path: "users/renew")
 }

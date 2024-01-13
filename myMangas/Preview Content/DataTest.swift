@@ -55,6 +55,10 @@ extension MangaListViewModel {
     static let test = MangaListViewModel(network: DataTest())
 }
 
+extension AccountViewModel {
+    static let test = AccountViewModel(network: DataTest())
+}
+
 struct DataTest: DataInteractor {
     let url = Bundle.main.url(forResource: "testMangas", withExtension: "json")!
     let urlBest = Bundle.main.url(forResource: "testBestMangas", withExtension: "json")!
@@ -86,4 +90,12 @@ struct DataTest: DataInteractor {
         let data = try Data(contentsOf: urlBest)
         return try JSONDecoder().decode(MangasDTO.self, from: data).items?.map(\.toPresentation) ?? []
     }
+    
+    func register(credentials: UserCredentials) async throws { }
+    
+    mutating func login(credentials: UserCredentials) async throws { }
+    
+    mutating func renew() async throws { }
+    
+    mutating func logout() { }
 }

@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import Combine
 
 final class MangaListViewModel: ObservableObject {
     private let network: DataInteractor
     private var bestMangas = [Manga]()
     private var currentPage = 1
     private var noMorePages = false
-    private var searchDebouncer = Debouncer()
+    private var cancellable: AnyCancellable?
     
     @Published var mangas = [Manga]()
     @Published var loading = true
@@ -21,10 +22,12 @@ final class MangaListViewModel: ObservableObject {
     @Published var msg = ""
     
     // Filter
+    @Published var searchQuery: String = ""
     @Published var selectedGenre: String?
     @Published var selectedDemographic: String?
     @Published var selectedTheme: String?
     @Published var filteredBestMangas = [Manga]()
+    
     var isFiltered: Bool {
         selectedGenre != nil
         || selectedDemographic != nil
@@ -36,6 +39,7 @@ final class MangaListViewModel: ObservableObject {
     
     init(network: DataInteractor = Network()) {
         self.network = network
+        setupSearchPublisher()
         getAllData()
     }
     
@@ -58,7 +62,7 @@ final class MangaListViewModel: ObservableObject {
         noMorePages = false
         await MainActor.run {
             filteredBestMangas = applyFilters(for: bestMangas)
-            mangas = []
+            mangas.removeAll()
         }
         currentPage = 1
         await searchMangas(query)
@@ -71,16 +75,24 @@ final class MangaListViewModel: ObservableObject {
     }
     
     func performSearch(query: String) {
-        searchDebouncer.debounce(delay: 0.5) {
-            Task {
-                await self.applyFilters(query)
-            }
-        }
+        searchQuery = query
     }
 }
 
 // MARK: Filters methods
 private extension MangaListViewModel {
+    func setupSearchPublisher() {
+        cancellable = $searchQuery
+            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { [weak self] query in
+                guard let self = self else { return }
+                Task {
+                    await self.applyFilters(query)
+                }
+            }
+    }
+    
     func applyFilters(for mangas: [Manga]) -> [Manga] {
         return mangas.filter { manga in
             var matchesGenre = true
@@ -111,15 +123,16 @@ private extension MangaListViewModel {
         clearFilters()
         currentPage = 1
         noMorePages = false
-        Task {
-            await MainActor.run { loading = true }
-            await getGenres()
-            await getThemes()
-            await getBestMangas()
-            await getMangas()
+        Task { [weak self] in
+            guard let self = self else { return }
+            await MainActor.run { self.loading = true }
+            await self.getGenres()
+            await self.getThemes()
+            await self.getBestMangas()
+            await self.getMangas()
             await MainActor.run {
-                filteredBestMangas = applyFilters(for: bestMangas)
-                loading = false
+                self.filteredBestMangas = self.applyFilters(for: self.bestMangas)
+                self.loading = false
             }
         }
     }

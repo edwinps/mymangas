@@ -31,7 +31,10 @@ struct MangaListView: View {
                     MangaListViewGrid()
                         .padding()
                 }
-                .navigationBarItems(leading: Button("Filters") {
+                .navigationBarItems(leading: Button("Login") {
+                    showFilterSheet.toggle()
+                })
+                .navigationBarItems(trailing: Button("Filters") {
                     showFilterSheet.toggle()
                 })
             }
