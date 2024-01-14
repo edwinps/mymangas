@@ -31,6 +31,9 @@ struct MangaListView: View {
                     MangaListViewGrid()
                         .padding()
                 }
+                .navigationDestination(for: Manga.self) { manga in
+                    MangaDetailView(manga: manga)
+                }
                 .navigationBarItems(leading: Button("Login") {
                     showFilterSheet.toggle()
                 })
@@ -38,6 +41,7 @@ struct MangaListView: View {
                     showFilterSheet.toggle()
                 })
             }
+            
             .searchable(text: $searchText)
             .onChange(of: searchText) { _, newSearchText in
                 if !newSearchText.isEmpty {
@@ -68,16 +72,18 @@ private extension MangaListView {
                     .bold()
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 16) {
                     ForEach(viewModel.mangas) { manga in
-                        MangaItemView(manga: manga)
-                            .onAppear {
-                                if manga == viewModel.mangas.last, !isLoadingNextPage {
-                                    isLoadingNextPage = true
-                                    Task {
-                                        await viewModel.loadMoreMangas()
+                        NavigationLink(value: manga) {
+                            MangaItemView(manga: manga)
+                                .onAppear {
+                                    if manga == viewModel.mangas.last, !isLoadingNextPage {
+                                        isLoadingNextPage = true
+                                        Task {
+                                            await viewModel.loadMoreMangas()
+                                        }
+                                        isLoadingNextPage = false
                                     }
-                                    isLoadingNextPage = false
                                 }
-                            }
+                        }
                     }
                 }
                 .overlay(
@@ -115,7 +121,9 @@ private extension MangaListView {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 16) {
                         ForEach(bestMangas) { manga in
-                            MangaItemView(manga: manga)
+                            NavigationLink(value: manga) {
+                                MangaItemView(manga: manga)
+                            }
                         }
                     }
                     .padding()
