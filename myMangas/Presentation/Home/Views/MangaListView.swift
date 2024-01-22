@@ -31,29 +31,25 @@ struct MangaListView: View {
                     MangaListViewGrid()
                         .padding()
                 }
-                .navigationDestination(for: Manga.self) { manga in
-                    MangaDetailView(manga: manga)
-                }
-                .navigationBarItems(leading: Button("Login") {
-                    showFilterSheet.toggle()
-                })
                 .navigationBarItems(trailing: Button("Filters") {
                     showFilterSheet.toggle()
                 })
-            }
-            
-            .searchable(text: $searchText)
-            .onChange(of: searchText) { _, newSearchText in
-                if !newSearchText.isEmpty {
-                    viewModel.performSearch(query: newSearchText)
+                .navigationDestination(for: Manga.self) { manga in
+                    MangaDetailView(manga: manga)
                 }
-            }
-            .sheet(isPresented: $showFilterSheet) {
-                FilterView(isPresented: $showFilterSheet)
-            }
-            .alert("Error",
-                   isPresented: $viewModel.showAlert) { } message: {
-                Text(viewModel.msg)
+                .searchable(text: $searchText)
+                .onChange(of: searchText) { _, newSearchText in
+                    if !newSearchText.isEmpty {
+                        viewModel.performSearch(query: newSearchText)
+                    }
+                }
+                .sheet(isPresented: $showFilterSheet) {
+                    FilterView(isPresented: $showFilterSheet)
+                }
+                .alert("Error",
+                       isPresented: $viewModel.showAlert) { } message: {
+                    Text(viewModel.msg)
+                }
             }
         }
     }

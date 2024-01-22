@@ -10,6 +10,7 @@ import SwiftUI
 struct MangaTabView: View {
     @StateObject private var homeViewModel = MangaListViewModel()
     @StateObject private var accountViewModel = AccountViewModel()
+    @StateObject private var myListViewModel = MyListViewModel()
     
     var body: some View {
         TabView {
@@ -19,7 +20,7 @@ struct MangaTabView: View {
                     Label("Home", systemImage: "house")
                 }
             
-            MyListView()
+            MyListView2(viewModel: myListViewModel)
                 .tabItem {
                     Label("My List", systemImage: "list.bullet")
                 }

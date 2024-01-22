@@ -63,6 +63,10 @@ extension MangaEditViewModel {
     static let test = MangaEditViewModel(manga: .testBerserk)
 }
 
+extension MyListViewModel {
+    static let test = MyListViewModel()
+}
+
 struct DataTest: DataInteractor {
     let url = Bundle.main.url(forResource: "testMangas", withExtension: "json")!
     let urlBest = Bundle.main.url(forResource: "testBestMangas", withExtension: "json")!

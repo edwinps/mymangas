@@ -11,16 +11,7 @@ final class MangaEditViewModel: ObservableObject {
     let manga: Manga
     
     @Published var isCompleted = false
-    {
-        didSet {
-            print("value \(isCompleted)")
-        }
-    }
-    @Published var selectedVolumes: [String] = [] {
-        didSet {
-            print("value \(selectedVolumes)")
-        }
-    }
+    @Published var selectedVolumes: [String] = []
     @Published var quantity: String = ""
     
     init(manga: Manga) {

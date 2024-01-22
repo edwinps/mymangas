@@ -10,6 +10,7 @@ import SwiftUI
 struct MangaEditView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: MangaEditViewModel
+    @State private var isSheetPresented = false
     
     var body: some View {
         VStack {
@@ -30,15 +31,19 @@ struct MangaEditView: View {
                 } header: {
                     Text("you have the collections")
                 }
-                if let volumes = viewModel.manga.volumes {
+                if viewModel.manga.volumes != nil {
                     Section {
                         HStack {
-                            Picker("Volumes", selection: $viewModel.selectedVolumes) {
-                                ForEach(1...volumes, id: \.self) { volume in
-                                    Text("\(volume)")
-                                }
+                            Button(action: {
+                                isSheetPresented.toggle()
+                                print("Button tapped!")
+                            }) {
+                                Text("Select Volumes:")
+                                    .foregroundColor(.primary)
                             }
-                            .pickerStyle(MenuPickerStyle())
+                            Spacer()
+                            Image(systemName: "\($viewModel.selectedVolumes.count).circle")
+                                .font(.title2)
                         }
                     } header: {
                         Text("You have these volumes")
@@ -50,6 +55,15 @@ struct MangaEditView: View {
                 } header: {
                     Text("volumes you have read")
                 }
+            }
+        }
+        .sheet(isPresented: $isSheetPresented) {
+            if let volumes = viewModel.manga.volumes {
+                let volumesArray = (1...volumes).map { String($0) }
+                MultiSelectPickerView(
+                    allItems: volumesArray,
+                    selectedItems: $viewModel.selectedVolumes)
+                .navigationBarTitle("Select Items")
             }
         }
         .navigationTitle(viewModel.manga.title)

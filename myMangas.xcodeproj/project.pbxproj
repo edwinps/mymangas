@@ -40,6 +40,9 @@
 		845BC8EB2B54322F009D51B5 /* MangaEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845BC8EA2B54322F009D51B5 /* MangaEditView.swift */; };
 		845BC8EE2B543455009D51B5 /* MangaEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845BC8ED2B543455009D51B5 /* MangaEditViewModel.swift */; };
 		849308612B4ACC4000A9BFC1 /* Network+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849308602B4ACC4000A9BFC1 /* Network+Search.swift */; };
+		84A6F1A72B55B78900EB3627 /* MultiSelectPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6F1A62B55B78900EB3627 /* MultiSelectPickerView.swift */; };
+		84C824272B5EF41200103CC2 /* MyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C824262B5EF41200103CC2 /* MyListView.swift */; };
+		84C8242A2B5EF4C500103CC2 /* MyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C824292B5EF4C500103CC2 /* MyListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +99,9 @@
 		845BC8EA2B54322F009D51B5 /* MangaEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaEditView.swift; sourceTree = "<group>"; };
 		845BC8ED2B543455009D51B5 /* MangaEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaEditViewModel.swift; sourceTree = "<group>"; };
 		849308602B4ACC4000A9BFC1 /* Network+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Search.swift"; sourceTree = "<group>"; };
+		84A6F1A62B55B78900EB3627 /* MultiSelectPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectPickerView.swift; sourceTree = "<group>"; };
+		84C824262B5EF41200103CC2 /* MyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListView.swift; sourceTree = "<group>"; };
+		84C824292B5EF4C500103CC2 /* MyListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +141,8 @@
 		8417DE082B5285B6002B1C51 /* MyList */ = {
 			isa = PBXGroup;
 			children = (
+				84C824282B5EF4B600103CC2 /* ViewModel */,
+				84C824252B5EF3FF00103CC2 /* View */,
 			);
 			path = MyList;
 			sourceTree = "<group>";
@@ -344,6 +352,7 @@
 		845BC8EF2B544138009D51B5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				84A6F1A62B55B78900EB3627 /* MultiSelectPickerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -355,6 +364,22 @@
 				845BC8E82B541873009D51B5 /* Extension.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		84C824252B5EF3FF00103CC2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84C824262B5EF41200103CC2 /* MyListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84C824282B5EF4B600103CC2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				84C824292B5EF4C500103CC2 /* MyListViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -490,9 +515,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				841A83912B41A0570015B90E /* Network.swift in Sources */,
+				84C8242A2B5EF4C500103CC2 /* MyListViewModel.swift in Sources */,
 				8417DE112B5295EB002B1C51 /* AccountViewModel.swift in Sources */,
 				841A83852B4191B40015B90E /* MangaDTO.swift in Sources */,
 				841A838A2B419A420015B90E /* NetworkError.swift in Sources */,
+				84A6F1A72B55B78900EB3627 /* MultiSelectPickerView.swift in Sources */,
 				841A83802B41756D0015B90E /* MangasDTO.swift in Sources */,
 				8417DE0D2B529471002B1C51 /* AccountView.swift in Sources */,
 				841A83992B441C810015B90E /* MangaListView.swift in Sources */,
@@ -504,6 +531,7 @@
 				841A83882B4194A00015B90E /* URL.swift in Sources */,
 				845BC8EE2B543455009D51B5 /* MangaEditViewModel.swift in Sources */,
 				841A839B2B44810C0015B90E /* DataTest.swift in Sources */,
+				84C824272B5EF41200103CC2 /* MyListView.swift in Sources */,
 				841A83A72B44A0790015B90E /* MangaItemView.swift in Sources */,
 				845BC8E92B541873009D51B5 /* Extension.swift in Sources */,
 				845BC8EB2B54322F009D51B5 /* MangaEditView.swift in Sources */,
