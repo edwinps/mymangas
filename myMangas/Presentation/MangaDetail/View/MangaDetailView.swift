@@ -39,31 +39,38 @@ struct MangaDetailView: View {
                 Text(manga.title)
                     .font(.title)
                     .fontWeight(.bold)
+                    .padding([.leading, .trailing])
                 
                 if !manga.genres.isEmpty {
                     Text("\(manga.genres.map {$0.capitalized }.joined(separator: " | "))")
+                        .padding([.leading, .trailing])
                 }
                 
                 if !manga.demographics.isEmpty {
                     Text("\(manga.demographics.map { $0.rawValue.capitalized }.joined(separator: " | "))")
+                        .padding([.leading, .trailing])
                 }
                 
                 if let volumes = manga.volumes {
                     Text("Volumes: \(volumes)")
+                        .padding([.leading, .trailing])
                 }
                 
                 NavigationLink(value: manga.id) {
                         Text("Add to your collection")
+                        .padding([.leading, .trailing])
                 }
                 
                 if let synopsis = manga.sypnosis {
                     Text("Synopsis:")
                         .font(.title3)
                         .fontWeight(.bold)
+                        .padding([.leading, .trailing])
                     Text(synopsis)
+                        .padding([.leading, .trailing])
                 }
                 Spacer()
-            }.padding(.leading)
+            }
         }
         .navigationDestination(for: Int.self) { _ in
             MangaEditView(viewModel: MangaEditViewModel(manga: manga))
