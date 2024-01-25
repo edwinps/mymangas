@@ -46,4 +46,11 @@ extension Network {
     mutating func logout() {
         keychainHelper.deleteData(key: constants.authTokenKey)
     }
+    
+    mutating func isLogin() -> Bool {
+        guard let token = loadAuthToken(), !token.isEmpty else {
+            return false
+        }
+        return true
+    }
 }

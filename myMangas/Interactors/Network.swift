@@ -24,6 +24,10 @@ protocol DataInteractor {
     mutating func login(credentials: UserCredentials) async throws
     mutating func renew() async throws
     mutating func logout()
+    mutating func isLogin() -> Bool
+    
+    // Collection
+    mutating func getCollection() async throws -> [Manga]
 }
 
 struct Network {

@@ -8,12 +8,17 @@
 import Foundation
 
 extension URLRequest {
-    static func get(url: URL, queryParams: [URLQueryItem]? = nil) -> URLRequest {
+    static func get(url: URL, 
+                    queryParams: [URLQueryItem]? = nil,
+                    authorization: String? = nil) -> URLRequest {
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: true)
         urlComponents?.queryItems = queryParams
         var request = URLRequest(url: urlComponents?.url ?? url)
         request.timeoutInterval = 60
         request.httpMethod = "GET"
+        if let authorization {
+            request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        }
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         return request
     }

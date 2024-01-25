@@ -106,4 +106,13 @@ struct DataTest: DataInteractor {
     mutating func renew() async throws { }
     
     mutating func logout() { }
+    
+    mutating func isLogin() -> Bool {
+        true
+    }
+    
+    mutating func getCollection() async throws -> [Manga] {
+        let data = try Data(contentsOf: url)
+        return try JSONDecoder().decode(MangasDTO.self, from: data).items?.map(\.toPresentation) ?? []
+    }
 }

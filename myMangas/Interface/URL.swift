@@ -25,4 +25,7 @@ extension URL {
     static let register = api.appending(path: "users")
     static let login = api.appending(path: "users/login")
     static let renew = api.appending(path: "users/renew")
+    
+    //Collection
+    static let getCollections = api.appending(path: "collection/manga")
 }
