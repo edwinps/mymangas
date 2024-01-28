@@ -28,4 +28,5 @@ extension URL {
     
     //Collection
     static let getCollections = api.appending(path: "collection/manga")
+    static let postCollections = api.appending(path: "collection/manga")
 }

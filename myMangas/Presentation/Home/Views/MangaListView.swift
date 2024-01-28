@@ -36,7 +36,6 @@ struct MangaListView: View {
                 })
                 .navigationDestination(for: Manga.self) { manga in
                     MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
-                        //.environmentObject(MangaDetailViewModel(manga: manga))
                 }
                 .searchable(text: $searchText)
                 .onChange(of: searchText) { _, newSearchText in

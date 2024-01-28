@@ -43,7 +43,8 @@ struct MangaDetailView: View {
                 }
             }
             .navigationDestination(for: Int.self) { _ in
-                MangaEditView(viewModel: MangaEditViewModel(manga: viewModel.manga))
+                MangaEditView()
+                    .environmentObject(viewModel)
             }
             .ignoresSafeArea(edges: .top)
             .navigationBarHidden(true)

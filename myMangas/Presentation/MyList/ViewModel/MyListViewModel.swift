@@ -34,7 +34,7 @@ enum errorState {
 
 final class MyListViewModel: ObservableObject {
     private var network: DataInteractor
-    @Published var mangas = [Manga]()
+    @Published var collection = [CollectionModel]()
     @Published var errorState :errorState = .none
     
     init(network: DataInteractor = Network()) {
@@ -45,26 +45,26 @@ final class MyListViewModel: ObservableObject {
 extension MyListViewModel {
     func getCollectionMangas() async {
         guard network.isLogin() else {
-            await MainActor.run {
-                errorState = .noLogin
+            await MainActor.run { [weak self] in
+                self?.errorState = .noLogin
             }
             return
         }
         do {
-            let mangas = try await network.getCollection()
-            guard !mangas.isEmpty else {
-                await MainActor.run {
-                    errorState = .noCollection
+            let collection = try await network.getCollection()
+            guard !collection.isEmpty else {
+                await MainActor.run { [weak self] in
+                    self?.errorState = .noCollection
                 }
                 return
             }
-            await MainActor.run {
-                self.mangas = mangas
-                errorState = .none
+            await MainActor.run { [weak self] in
+                self?.collection = collection
+                self?.errorState = .none
             }
         } catch {
-            await MainActor.run {
-                errorState = .general
+            await MainActor.run { [weak self] in
+                self?.errorState = .general
             }
         }
     }

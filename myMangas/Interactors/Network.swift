@@ -27,7 +27,8 @@ protocol DataInteractor {
     mutating func isLogin() -> Bool
     
     // Collection
-    mutating func getCollection() async throws -> [Manga]
+    mutating func getCollection() async throws -> [CollectionModel]
+    mutating func postCollection(request: UserMangaCollectionRequest) async throws
 }
 
 struct Network {

@@ -48,21 +48,23 @@ final class MangaListViewModel: ObservableObject {
             return
         }
         currentPage += 1
-        await MainActor.run {
-            loadingIndicator = true
-            filteredBestMangas = applyFilters(for: bestMangas)
+        await MainActor.run { [weak self] in
+            guard let self = self else { return }
+            self.loadingIndicator = true
+            self.filteredBestMangas = applyFilters(for: self.bestMangas)
         }
         await (isFiltered ? searchMangas() : getMangas())
-        await MainActor.run {
-            loadingIndicator = false
+        await MainActor.run { [weak self] in
+            self?.loadingIndicator = false
         }
     }
     
     func applyFilters(_ query: String? = nil) async {
         noMorePages = false
-        await MainActor.run {
-            filteredBestMangas = applyFilters(for: bestMangas)
-            mangas.removeAll()
+        await MainActor.run { [weak self] in
+            guard let self = self else { return }
+            self.filteredBestMangas = applyFilters(for: self.bestMangas)
+            self.mangas.removeAll()
         }
         currentPage = 1
         await searchMangas(query)
@@ -140,13 +142,13 @@ private extension MangaListViewModel {
     func getBestMangas() async {
         do {
             let bestMangas = try await network.getBestMangas()
-            await MainActor.run {
-                self.bestMangas = bestMangas
+            await MainActor.run { [weak self] in
+                self?.bestMangas = bestMangas
             }
         } catch {
-            await MainActor.run {
-                self.msg = "\(error)"
-                self.showAlert.toggle()
+            await MainActor.run { [weak self] in
+                self?.msg = "\(error)"
+                self?.showAlert.toggle()
             }
         }
     }
@@ -155,13 +157,13 @@ private extension MangaListViewModel {
         do {
             let mangas = try await network.getMangas(page: currentPage)
             noMorePages = mangas.isEmpty
-            await MainActor.run {
-                self.mangas += mangas
+            await MainActor.run { [weak self] in
+                self?.mangas += mangas
             }
         } catch {
-            await MainActor.run {
-                self.msg = "\(error)"
-                self.showAlert.toggle()
+            await MainActor.run { [weak self] in
+                self?.msg = "\(error)"
+                self?.showAlert.toggle()
             }
         }
     }
@@ -169,8 +171,8 @@ private extension MangaListViewModel {
     func getGenres() async {
         do {
             let genres = try await network.getGenres()
-            await MainActor.run {
-                self.genres = genres
+            await MainActor.run { [weak self] in
+                self?.genres = genres
             }
         } catch {
             print("Error: no genres")
@@ -180,8 +182,8 @@ private extension MangaListViewModel {
     func getThemes() async {
         do {
             let themes = try await network.getThemes()
-            await MainActor.run {
-                self.themes = themes
+            await MainActor.run { [weak self] in
+                self?.themes = themes
             }
         } catch {
             print("Error: no themes")
@@ -200,13 +202,13 @@ private extension MangaListViewModel {
                                             searchContains: true)
             let mangas = try await network.searchMangas(page: currentPage, bodyItems: customSearch)
             noMorePages = mangas.isEmpty
-            await MainActor.run {
-                self.mangas += mangas
+            await MainActor.run { [weak self] in
+                self?.mangas += mangas
             }
         } catch {
-            await MainActor.run {
-                self.msg = "\(error)"
-                self.showAlert.toggle()
+            await MainActor.run { [weak self] in
+                self?.msg = "\(error)"
+                self?.showAlert.toggle()
             }
         }
     }

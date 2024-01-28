@@ -29,41 +29,41 @@ final class AccountViewModel: ObservableObject {
 
     func register(email: String, password: String) async {
         guard isValidEmailFormat(email), password.count >= 8 else {
-            await MainActor.run { registrationError = "Invalid email or password" }
+            await MainActor.run { [weak self] in self?.registrationError = "Invalid email or password" }
             return
         }
-        await MainActor.run { loading = true }
+        await MainActor.run { [weak self] in self?.loading = true }
         do {
             try await network.register(credentials: UserCredentials(email: email, password: password))
             await login(email: email, password: password)
         } catch {
-            await MainActor.run {
-                registrationError = "There was a problem with the registration, it may already be registered"
+            await MainActor.run { [weak self] in
+                self?.registrationError = "There was a problem with the registration, it may already be registered"
             }
         }
-        await MainActor.run { loading = false }
+        await MainActor.run { [weak self] in self?.loading = false }
     }
 
     func login(email: String, password: String) async {
         guard isValidEmailFormat(email), password.count >= 8 else {
-            await MainActor.run { loginError = "Invalid email or password" }
+            await MainActor.run { [weak self] in self?.loginError = "Invalid email or password" }
             return
         }
-        await MainActor.run { loading = true }
+        await MainActor.run { [weak self] in self?.loading = true }
         do {
             try await network.login(credentials: UserCredentials(email: email, password: password))
             await MainActor.run { loginSuccess = true }
         } catch {
-            await MainActor.run {
-                loginError = "Invalid email or password"
-                loginSuccess = false
+            await MainActor.run { [weak self] in
+                self?.loginError = "Invalid email or password"
+                self?.loginSuccess = false
             }
         }
-        await MainActor.run { loading = false }
+        await MainActor.run { [weak self] in self?.loading = false }
     }
     
     func logout() async {
-        await MainActor.run { loginSuccess = false }
+        await MainActor.run { [weak self] in self?.loginSuccess = false }
         network.logout()
     }
     
@@ -77,11 +77,11 @@ private extension AccountViewModel {
     func renew() async {
         do {
             try await network.renew()
-            await MainActor.run { loginSuccess = true }
+            await MainActor.run { [weak self] in self?.loginSuccess = true }
         }
         catch {
             await logout()
-            await MainActor.run { loginSuccess = false }
+            await MainActor.run { [weak self] in self?.loginSuccess = false }
         }
     }
     

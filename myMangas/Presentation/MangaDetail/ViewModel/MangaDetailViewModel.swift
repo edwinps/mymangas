@@ -13,8 +13,25 @@ final class MangaDetailViewModel: ObservableObject {
     @Published var navBarOpacity: Double = 0
     @Published var titteBarOpacity: Double = 0
     
-    init(manga: Manga = Manga.testMonter) {
+    private var network: DataInteractor
+    @Published var isCompleted = false
+    @Published var volumesOwned: [String] = []
+    @Published var readingVolume: String = ""
+    
+    @Published var loading = false
+    @Published var showAlert = false
+    @Published var msg = ""
+    
+    init(network: DataInteractor = Network(),
+         manga: Manga,
+         isCompleted: Bool = false,
+         volumesOwned: [String] = [],
+         readingVolume: String = "") {
+        self.network = network
         self.manga = manga
+        self.isCompleted = isCompleted
+        self.volumesOwned = volumesOwned
+        self.readingVolume = readingVolume
     }
     
     func calculateNavBarOpacity(offset: CGFloat, topInsetSize: CGFloat) {
@@ -29,6 +46,30 @@ final class MangaDetailViewModel: ObservableObject {
             navBarOpacity = 1
         } else {
             titteBarOpacity = 0
+        }
+    }
+    
+    func updateManga() {
+        print("isCompleted \(isCompleted) | selectedVolumes \(volumesOwned) | quantity \(readingVolume)")
+    }
+    
+    func postCollection() async -> Bool {
+        await MainActor.run { [weak self] in self?.loading = true }
+        let request = UserMangaCollectionRequest(manga: manga.id,
+                                                 completeCollection: isCompleted,
+                                                 volumesOwned: volumesOwned.map { Int($0) ?? 0 },
+                                                 readingVolume: Int(readingVolume) ?? 0)
+        do {
+            try await network.postCollection(request: request)
+            await MainActor.run { [weak self] in self?.loading = false }
+            return true
+        } catch {
+            await MainActor.run { [weak self] in
+                self?.msg = "There was an error try again later"
+                self?.showAlert.toggle()
+                self?.loading = false
+            }
+            return false
         }
     }
 }

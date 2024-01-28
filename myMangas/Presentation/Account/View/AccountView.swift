@@ -16,7 +16,6 @@ struct AccountView: View {
     var body: some View {
         VStack {
             if viewModel.loginSuccess {
-                
                 Text("Welcome")
                     .font(.title)
                     .foregroundColor(.primary)

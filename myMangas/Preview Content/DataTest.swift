@@ -51,6 +51,20 @@ extension Manga {
                             volumes: 14)
 }
 
+extension CollectionModel {
+    static let testMonter = CollectionModel(id: "A8AF0441-3CD1-4F5B-AF0E-3C1FED7CDF08",
+                                       manga: Manga.testMonter,
+                                       volumesOwned: [1, 2, 3],
+                                       readingVolume: 3,
+                                       completeCollection: true)
+    
+    static let testBerserk = CollectionModel(id: "A8AF0441-3CD1-4F5B-AF0E-3C1FED7CDB08",
+                                       manga: Manga.testMonter,
+                                       volumesOwned: [1],
+                                       readingVolume: 1,
+                                       completeCollection: false)
+}
+
 extension MangaListViewModel {
     static let test = MangaListViewModel(network: DataTest())
 }
@@ -59,12 +73,8 @@ extension AccountViewModel {
     static let test = AccountViewModel(network: DataTest())
 }
 
-extension MangaEditViewModel {
-    static let test = MangaEditViewModel(manga: .testBerserk)
-}
-
 extension MyListViewModel {
-    static let test = MyListViewModel()
+    static let test = MyListViewModel(network: DataTest())
 }
 
 extension MangaDetailViewModel {
@@ -74,6 +84,7 @@ extension MangaDetailViewModel {
 struct DataTest: DataInteractor {
     let url = Bundle.main.url(forResource: "testMangas", withExtension: "json")!
     let urlBest = Bundle.main.url(forResource: "testBestMangas", withExtension: "json")!
+    let urlcollection = Bundle.main.url(forResource: "collection", withExtension: "json")!
     
     func getMangas(page: Int) async throws -> [Manga] {
         let data = try Data(contentsOf: url)
@@ -115,8 +126,10 @@ struct DataTest: DataInteractor {
         true
     }
     
-    mutating func getCollection() async throws -> [Manga] {
-        let data = try Data(contentsOf: url)
-        return try JSONDecoder().decode(MangasDTO.self, from: data).items?.map(\.toPresentation) ?? []
+    mutating func getCollection() async throws -> [CollectionModel] {
+        let data = try Data(contentsOf: urlcollection)
+        return try JSONDecoder().decode([CollectionDTO].self, from: data).map(\.toPresentation) 
     }
+    
+    mutating func postCollection(request: UserMangaCollectionRequest) async throws { }
 }
