@@ -35,6 +35,8 @@
 		841A83A72B44A0790015B90E /* MangaItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841A83A62B44A0790015B90E /* MangaItemView.swift */; };
 		841EF6CA2B485F6300D87F73 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841EF6C92B485F6300D87F73 /* FilterView.swift */; };
 		841EF6CC2B48623E00D87F73 /* Network+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841EF6CB2B48623E00D87F73 /* Network+Categories.swift */; };
+		842B93402B65042F00821A2F /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B933F2B65042F00821A2F /* HeaderView.swift */; };
+		842B93422B6516AC00821A2F /* MangaDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B93412B6516AC00821A2F /* MangaDetailViewModel.swift */; };
 		8431A74E2B62F43A00372E13 /* Network+Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8431A74D2B62F43A00372E13 /* Network+Collections.swift */; };
 		845BC8E72B53F5A8009D51B5 /* MangaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845BC8E62B53F5A8009D51B5 /* MangaDetailView.swift */; };
 		845BC8E92B541873009D51B5 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845BC8E82B541873009D51B5 /* Extension.swift */; };
@@ -95,6 +97,8 @@
 		841A83A62B44A0790015B90E /* MangaItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaItemView.swift; sourceTree = "<group>"; };
 		841EF6C92B485F6300D87F73 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		841EF6CB2B48623E00D87F73 /* Network+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Categories.swift"; sourceTree = "<group>"; };
+		842B933F2B65042F00821A2F /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		842B93412B6516AC00821A2F /* MangaDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailViewModel.swift; sourceTree = "<group>"; };
 		8431A74D2B62F43A00372E13 /* Network+Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Collections.swift"; sourceTree = "<group>"; };
 		845BC8E62B53F5A8009D51B5 /* MangaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailView.swift; sourceTree = "<group>"; };
 		845BC8E82B541873009D51B5 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -348,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				845BC8ED2B543455009D51B5 /* MangaEditViewModel.swift */,
+				842B93412B6516AC00821A2F /* MangaDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				84A6F1A62B55B78900EB3627 /* MultiSelectPickerView.swift */,
+				842B933F2B65042F00821A2F /* HeaderView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -525,6 +531,7 @@
 				84A6F1A72B55B78900EB3627 /* MultiSelectPickerView.swift in Sources */,
 				841A83802B41756D0015B90E /* MangasDTO.swift in Sources */,
 				8417DE0D2B529471002B1C51 /* AccountView.swift in Sources */,
+				842B93422B6516AC00821A2F /* MangaDetailViewModel.swift in Sources */,
 				841A83992B441C810015B90E /* MangaListView.swift in Sources */,
 				841A83832B4178CB0015B90E /* Manga.swift in Sources */,
 				841A838E2B419D300015B90E /* URLSession.swift in Sources */,
@@ -532,6 +539,7 @@
 				845BC8E72B53F5A8009D51B5 /* MangaDetailView.swift in Sources */,
 				841A83542B416A640015B90E /* myMangasApp.swift in Sources */,
 				841A83882B4194A00015B90E /* URL.swift in Sources */,
+				842B93402B65042F00821A2F /* HeaderView.swift in Sources */,
 				845BC8EE2B543455009D51B5 /* MangaEditViewModel.swift in Sources */,
 				841A839B2B44810C0015B90E /* DataTest.swift in Sources */,
 				84C824272B5EF41200103CC2 /* MyListView.swift in Sources */,

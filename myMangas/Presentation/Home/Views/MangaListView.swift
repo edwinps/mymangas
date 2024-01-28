@@ -35,7 +35,8 @@ struct MangaListView: View {
                     showFilterSheet.toggle()
                 })
                 .navigationDestination(for: Manga.self) { manga in
-                    MangaDetailView(manga: manga)
+                    MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
+                        //.environmentObject(MangaDetailViewModel(manga: manga))
                 }
                 .searchable(text: $searchText)
                 .onChange(of: searchText) { _, newSearchText in
