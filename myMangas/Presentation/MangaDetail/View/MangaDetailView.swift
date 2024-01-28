@@ -10,23 +10,24 @@ import SwiftUI
 struct MangaDetailView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: MangaDetailViewModel
-    
+    @State private var imageOffset: CGFloat = 0
     init(viewModel: MangaDetailViewModel) {
         self.viewModel = viewModel
-        UIScrollView.appearance().bounces = false
     }
     var body: some View {
         ZStack(alignment: .top) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     mangaImage(manga: viewModel.manga)
+                        .offset(y: viewModel.imageOffset)
                         .background(
                             GeometryReader { geometry in
                                 Color.clear
                                     .preference(key: ScrollViewOffsetKey.self, value: geometry.frame(in: .named("scrollView")).origin.y)
                             }.onPreferenceChange(ScrollViewOffsetKey.self) { offset in
-                                viewModel.calculateNavBarOpacity(offset: offset,
-                                                                 topInsetSize: UIDevice.topInsetSize)
+                                viewModel.calculateNavBarOpacityAndImageOffset(
+                                    offset: offset,
+                                    topInsetSize: UIDevice.topInsetSize)
                             }
                         )
                     HeaderView()

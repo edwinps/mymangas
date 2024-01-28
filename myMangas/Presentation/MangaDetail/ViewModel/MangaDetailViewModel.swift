@@ -12,6 +12,7 @@ final class MangaDetailViewModel: ObservableObject {
     @Published var imageHeigt: CGFloat = 50
     @Published var navBarOpacity: Double = 0
     @Published var titteBarOpacity: Double = 0
+    @Published var imageOffset: CGFloat = 0
     
     private var network: DataInteractor
     @Published var isCompleted = false
@@ -34,10 +35,16 @@ final class MangaDetailViewModel: ObservableObject {
         self.readingVolume = readingVolume
     }
     
-    func calculateNavBarOpacity(offset: CGFloat, topInsetSize: CGFloat) {
+    func calculateNavBarOpacityAndImageOffset(offset: CGFloat, topInsetSize: CGFloat) {
         let newOffset = offset + topInsetSize
         let threshold: CGFloat = imageHeigt - topInsetSize + 10
         navBarOpacity = Double(min(1, -newOffset / threshold))
+        
+        if newOffset > 0 {
+            imageOffset = min(0, -newOffset)
+        } else {
+            imageOffset = 0
+        }
     }
     
     func calculateNavTitleOpacity(offset: CGFloat) {
@@ -47,6 +54,10 @@ final class MangaDetailViewModel: ObservableObject {
         } else {
             titteBarOpacity = 0
         }
+    }
+    
+    func calculateImageoffset(offset: CGFloat, topInsetSize: CGFloat) {
+        
     }
     
     func updateManga() {

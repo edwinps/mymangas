@@ -31,6 +31,7 @@ struct MangaListView: View {
                     MangaListViewGrid()
                         .padding()
                 }
+                .navigationBarHidden(false)
                 .navigationBarItems(trailing: Button("Filters") {
                     showFilterSheet.toggle()
                 })

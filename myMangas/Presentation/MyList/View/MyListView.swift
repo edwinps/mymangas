@@ -99,6 +99,7 @@ struct MyListView: View {
                     .background(Color.clear)
                 }
             }
+            .navigationBarHidden(false)
             .navigationDestination(for: CollectionModel.self) { collection in
                 let readingVolume = String(collection.readingVolume ?? 0)
                 MangaDetailView(
