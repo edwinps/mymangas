@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+
 struct MangaListView: View {
     @EnvironmentObject var viewModel: MangaListViewModel
     @State private var showFilterSheet = false
     @State private var searchText: String = ""
+    @Binding var path: [MangaNavigation]
     
     var body: some View {
         if viewModel.loading {
@@ -21,7 +23,7 @@ struct MangaListView: View {
             }
             .ignoresSafeArea()
         } else {
-            NavigationStack {
+            NavigationStack(path: $path) {
                 ScrollView {
                     if !viewModel.filteredBestMangas.isEmpty {
                         BestMangaListView(bestMangas: viewModel.filteredBestMangas)
@@ -35,8 +37,13 @@ struct MangaListView: View {
                 .navigationBarItems(trailing: Button("Filters") {
                     showFilterSheet.toggle()
                 })
-                .navigationDestination(for: Manga.self) { manga in
-                    MangaDetailView(viewModel: MangaDetailViewModel(manga: manga))
+                .navigationDestination(for: MangaNavigation.self) { screen in
+                    switch screen {
+                    case .detail(let viewModel):
+                        MangaDetailView(viewModel: viewModel)
+                    case .edit(let viewModel):
+                        MangaEditView(viewModel: viewModel)
+                    }
                 }
                 .searchable(text: $searchText)
                 .onChange(of: searchText) { _, newSearchText in
@@ -69,7 +76,8 @@ private extension MangaListView {
                     .bold()
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 16) {
                     ForEach(viewModel.mangas) { manga in
-                        NavigationLink(value: manga) {
+                        let detailViewModel = MangaDetailViewModel(manga: manga)
+                        NavigationLink(value: MangaNavigation.detail(detailViewModel)) {
                             MangaItemView(manga: manga)
                                 .onAppear {
                                     if manga == viewModel.mangas.last, !isLoadingNextPage {
@@ -118,7 +126,8 @@ private extension MangaListView {
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 16) {
                         ForEach(bestMangas) { manga in
-                            NavigationLink(value: manga) {
+                            let viewModel = MangaDetailViewModel(manga: manga)
+                            NavigationLink(value: MangaNavigation.detail(viewModel)) {
                                 MangaItemView(manga: manga)
                             }
                         }
@@ -131,6 +140,6 @@ private extension MangaListView {
 }
 
 #Preview {
-    MangaListView()
+    MangaListView(path: .constant([]))
         .environmentObject(MangaListViewModel.test)
 }

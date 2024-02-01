@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct MangaDetailView: View {
-    @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: MangaDetailViewModel
     @State private var imageOffset: CGFloat = 0
     init(viewModel: MangaDetailViewModel) {
@@ -43,25 +42,14 @@ struct MangaDetailView: View {
                     Spacer()
                 }
             }
-            .navigationDestination(for: Int.self) { _ in
-                MangaEditView()
-                    .environmentObject(viewModel)
-            }
             .ignoresSafeArea(edges: .top)
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden()
             .coordinateSpace(name: "scrollView")
+            .navigationTitle("")
+            .navigationBarBackButtonHidden()
             NavigationBarTitleView(title: viewModel.manga.title)
                 .opacity(viewModel.navBarOpacity)
             
-            Button(action: { dismiss() }, label: {
-                HStack() {
-                    Image(systemName: "arrow.left")
-                        .imageScale(.large)
-                        .foregroundColor(.primary)
-                    Spacer()
-                }.padding([.leading])
-            }).padding(.top, 6)
+            backButton().padding([.leading])
             
         }.environmentObject(viewModel)
     }

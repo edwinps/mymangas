@@ -34,7 +34,7 @@ enum errorState {
 
 final class MyListViewModel: ObservableObject {
     private var network: DataInteractor
-    @Published var collection = [CollectionModel]()
+    @Published var collections = [CollectionModel]()
     @Published var errorState :errorState = .none
     
     init(network: DataInteractor = Network()) {
@@ -59,7 +59,7 @@ extension MyListViewModel {
                 return
             }
             await MainActor.run { [weak self] in
-                self?.collection = collection
+                self?.collections = collection
                 self?.errorState = .none
             }
         } catch {

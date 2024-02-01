@@ -9,10 +9,9 @@ import SwiftUI
 
 struct MangaEditView: View {
     @Environment(\.dismiss) var dismiss
-//    @ObservedObject var viewModel: MangaEditViewModel
     @State private var isSheetPresented = false
     
-    @EnvironmentObject var viewModel: MangaDetailViewModel
+    @ObservedObject var viewModel: MangaDetailViewModel
     var body: some View {
         if viewModel.loading {
             ZStack {
@@ -76,8 +75,11 @@ struct MangaEditView: View {
                 }
             }
             .navigationTitle(viewModel.manga.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    backButton()
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
                         var success = true
@@ -98,7 +100,6 @@ struct MangaEditView: View {
 
 #Preview {
     NavigationStack {
-        MangaEditView()
-            .environmentObject(MangaDetailViewModel.test)
+        MangaEditView(viewModel: MangaDetailViewModel.test)
     }
 }

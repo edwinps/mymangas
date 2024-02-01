@@ -46,7 +46,7 @@ struct HeaderView: View {
                     Text("\(volumes) volumes")
                 }
             }
-            NavigationLink(value: viewModel.manga.id) {
+            NavigationLink(value: MangaNavigation.edit(viewModel)) {
                 HStack {
                     Image(systemName: "plus")
                     Text("Add to your collection")
